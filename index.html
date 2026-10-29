@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>My Routine</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">PERSONAL DASHBOARD</div>
+      <h1>My Routine</h1>
+    </div>
+    <div class="top-actions">
+      <button id="themeBtn" class="icon-btn" title="Toggle theme">◐</button>
+      <button id="loginBtn" class="ghost-btn">Sign in</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div id="todayLabel" class="muted"></div>
+        <h2 id="greeting">Good evening.</h2>
+        <p class="muted">Keep the day simple. Do the next thing.</p>
+      </div>
+      <div class="hero-stat">
+        <span id="taskCount">0 / 0</span>
+        <small>tasks complete</small>
+      </div>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-view="today">Today</button>
+      <button class="tab" data-view="plan">Plan</button>
+      <button class="tab" data-view="study">Study</button>
+      <button class="tab" data-view="prayer">Prayer</button>
+      <button class="tab" data-view="habits">Habits</button>
+      <button class="tab" data-view="reports">Reports</button>
+    </nav>
+
+    <section id="view-today" class="view active">
+      <div class="grid two">
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">MUST DO</span><h3>Daily essentials</h3></div></div>
+          <div id="mustDoList" class="list"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">GOALS</span><h3>Today's goals</h3></div><button class="text-btn" data-open="goalModal">+ Add</button></div>
+          <div id="goalList" class="list"></div>
+        </article>
+      </div>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div><span class="kicker">TODAY</span><h3>Routine</h3></div>
+          <button class="text-btn" data-open="taskModal">+ Add task</button>
+        </div>
+        <div id="todayList" class="timeline"></div>
+      </article>
+
+      <div class="grid three">
+        <article class="metric"><span>Study</span><strong id="studyMetric">0m</strong><small>today</small></article>
+        <article class="metric"><span>Coding</span><strong id="codingMetric">0m</strong><small>today</small></article>
+        <article class="metric"><span>Revision</span><strong id="revisionMetric">0m</strong><small>today</small></article>
+      </div>
+    </section>
+
+    <section id="view-plan" class="view">
+      <article class="panel">
+        <div class="panel-head"><div><span class="kicker">PLAN</span><h3>Build your day</h3></div><button class="text-btn" data-open="taskModal">+ Add task</button></div>
+        <p class="muted">Plan tomorrow the night before, or add extra work in the morning.</p>
+        <div id="planList" class="timeline"></div>
+      </article>
+    </section>
+
+    <section id="view-study" class="view">
+      <div class="grid two">
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">FOCUS</span><h3>Start a session</h3></div></div>
+          <label>Type<select id="sessionType"><option value="study">Study</option><option value="coding">Coding</option><option value="revision">Revision</option><option value="other">Other</option></select></label>
+          <label>Subject / activity<input id="sessionSubject" placeholder="e.g. Linear Algebra"></label>
+          <div class="timer" id="timer">00:00:00</div>
+          <div class="timer-actions"><button id="startTimer" class="primary">Start</button><button id="endTimer" class="secondary" disabled>End</button></div>
+          <button id="focusBtn" class="wide-btn">Enter Focus Mode</button>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">TODAY</span><h3>Study summary</h3></div></div>
+          <div id="studySummary" class="summary-list"></div>
+        </article>
+      </div>
+      <article class="panel">
+        <div class="panel-head"><div><span class="kicker">SESSIONS</span><h3>Recent sessions</h3></div></div>
+        <div id="sessionList" class="simple-list"></div>
+      </article>
+    </section>
+
+    <section id="view-prayer" class="view">
+      <article class="panel">
+        <div class="panel-head"><div><span class="kicker">PRAYER</span><h3 id="prayerDateTitle">Today's prayer</h3></div></div>
+        <p class="muted">Prayer is tracked separately from productivity. A prayer keeps its original due date even if completed later.</p>
+        <div id="prayerList" class="prayer-grid"></div>
+        <div id="qazaSummary" class="qaza"></div>
+      </article>
+    </section>
+
+    <section id="view-habits" class="view">
+      <article class="panel">
+        <div class="panel-head"><div><span class="kicker">HABITS</span><h3>Daily habits</h3></div><button class="text-btn" data-open="habitModal">+ Add habit</button></div>
+        <div id="habitList" class="habit-list"></div>
+      </article>
+    </section>
+
+    <section id="view-reports" class="view">
+      <div class="grid two">
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">WEEK</span><h3>This week</h3></div></div>
+          <div id="weeklyReport" class="report"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><span class="kicker">MONTH</span><h3>This month</h3></div></div>
+          <div id="monthlyReport" class="report"></div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalLayer" class="modal-layer hidden">
+    <div class="modal" id="taskModal">
+      <div class="modal-head"><h3>Add task</h3><button class="close" data-close>×</button></div>
+      <label>Date<input id="taskDate" type="date"></label>
+      <label>Task<input id="taskTitle" placeholder="What needs to be done?"></label>
+      <div class="form-row"><label>Start<input id="taskStart" type="time"></label><label>End<input id="taskEnd" type="time"></label></div>
+      <label>Note<textarea id="taskNote" rows="3" placeholder="Optional"></textarea></label>
+      <label class="check-row"><input id="taskPriority" type="checkbox"> Priority task</label>
+      <button id="saveTask" class="primary wide-btn">Save task</button>
+    </div>
+
+    <div class="modal" id="goalModal">
+      <div class="modal-head"><h3>Add daily goal</h3><button class="close" data-close>×</button></div>
+      <label>Goal<input id="goalTitle" placeholder="Most important thing today"></label>
+      <button id="saveGoal" class="primary wide-btn">Save goal</button>
+    </div>
+
+    <div class="modal" id="habitModal">
+      <div class="modal-head"><h3>Add habit</h3><button class="close" data-close>×</button></div>
+      <label>Habit<input id="habitTitle" placeholder="e.g. Read 20 minutes"></label>
+      <label>Target minutes (optional)<input id="habitTarget" type="number" min="0" placeholder="20"></label>
+      <button id="saveHabit" class="primary wide-btn">Save habit</button>
+    </div>
+  </div>
+
+  <div id="focusOverlay" class="focus-overlay hidden">
+    <button id="exitFocus" class="focus-exit">Exit</button>
+    <div>
+      <span class="kicker">FOCUS SESSION</span>
+      <h2 id="focusTitle">Focus</h2>
+      <div id="focusTimer" class="focus-timer">00:00:00</div>
+      <button id="focusEnd" class="primary">End session</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

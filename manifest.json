@@ -1,0 +1,9 @@
+{
+  "name": "My Routine",
+  "short_name": "Routine",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f6f3",
+  "theme_color": "#111111",
+  "icons": []
+}
